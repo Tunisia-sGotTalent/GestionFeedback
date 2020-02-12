@@ -37,11 +37,10 @@ public class servicefeedback implements Fservice<feedback> {
         pre.executeUpdate();
     }
 
-    @Override
-    public boolean delete(feedback t) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+//    @Override
+//    public boolean delete(feedback t) throws SQLException {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
     @Override
     public boolean update(feedback a) throws SQLException {
         PreparedStatement pt = con.prepareStatement("update feedback set nom=?,comment=?,type=?,date=? where id=?");
@@ -78,6 +77,23 @@ public class servicefeedback implements Fservice<feedback> {
     }
 
     @Override
+    public List<feedback> readAllTri() throws SQLException {
+        List<feedback> list = new ArrayList<>();
+        String req = "select * from feedback order by nom";
+
+        try {
+            ste = con.createStatement();
+            ResultSet rs = ste.executeQuery(req);
+            while (rs.next()) {
+                list.add(new feedback(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return list;
+    }
+
+    @Override
     public List readAll() throws SQLException {
         List<feedback> arr = new ArrayList<>();
         ste = con.createStatement();
@@ -94,4 +110,5 @@ public class servicefeedback implements Fservice<feedback> {
         return arr;
 
     }
+
 }
