@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class test {
-    
+
     public static void main(String[] args) {
 
         //feedback f1=new feedback("feedback1", "bla bla bla", "whatever", "11/02/2020");
@@ -20,12 +20,12 @@ public class test {
 //            serr.deleteParID(2);
 //            serr.update(f3);
             serr.readAllTri().forEach(System.out::println);
-            
+
             List<feedback> list = serr.readAll();
             System.out.println(list);
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-        
+
     }
 }
