@@ -6,7 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
- 
+
 public class GestionFeedback extends Application {
     
     @Override
@@ -19,7 +19,6 @@ public class GestionFeedback extends Application {
         stage.show();
     }
 
-    
     public static void main(String[] args) {
         launch(args);
     }

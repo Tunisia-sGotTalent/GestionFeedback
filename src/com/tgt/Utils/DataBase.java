@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DataBase {
-
-    String url = "jdbc:mysql://localhost:3306/tgt";
+    
+String url = "jdbc:mysql://localhost:3306/tgt";
     String login = "root";
     String pwd = "";
     public static DataBase db;
@@ -32,3 +32,4 @@ public class DataBase {
         return db;
     }
 }
+

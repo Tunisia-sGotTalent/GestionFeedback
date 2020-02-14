@@ -23,16 +23,16 @@ public class servicefeedback implements Fservice<feedback> {
     @Override
     public void ajouter(feedback t) throws SQLException {
         ste = con.createStatement();
-        String requeteInsert = "INSERT INTO `tgt`.`feedback` (`id`, `nom`, `comment`, `type`,`date`) VALUES (NULL, '" + t.getNom() + "', '" + t.getComment() + "', '" + t.getType() + "', '" + t.getDate() + "');";
+        String requeteInsert = "INSERT INTO `tgt`.`feedback` (`id_feedback`, `note_feedback`, `date_feedback`, `commentaire_feedback`) VALUES (NULL, '" + t.getNote_feedback() + "', '" + t.getDate_feedback() + "', '" + t.getCommentaire_feedback() + "');";
         ste.executeUpdate(requeteInsert);
     }
 
     public void ajouter1(feedback f) throws SQLException {
-        PreparedStatement pre = con.prepareStatement("INSERT INTO `tgt`.`feedback`  ( `nom`, `comment`, `type`,`date`) VALUES ( ?, ?, ?, ?);");
-        pre.setString(1, f.getNom());
-        pre.setString(2, f.getComment());
-        pre.setString(3, f.getComment());
-        pre.setString(4, f.getDate());
+        PreparedStatement pre = con.prepareStatement("INSERT INTO `tgt`.`feedback`  ( `note_feedback`, `date_feedback`, `date_feedback`) VALUES ( ?, ?, ?);");
+        pre.setInt(1, f.getNote_feedback());
+        pre.setString(2, f.getDate_feedback());
+        pre.setString(3, f.getCommentaire_feedback());
+        pre.setString(4, f.getDate_feedback());
 
         pre.executeUpdate();
     }
@@ -43,21 +43,20 @@ public class servicefeedback implements Fservice<feedback> {
 //    }
     @Override
     public boolean update(feedback a) throws SQLException {
-        PreparedStatement pt = con.prepareStatement("update feedback set nom=?,comment=?,type=?,date=? where id=?");
-        pt.setString(1, a.getNom());
-        pt.setString(2, a.getComment());
-        pt.setString(3, a.getType());
-        pt.setString(4, a.getDate());
-        pt.setInt(5, a.getId());
+        PreparedStatement pt = con.prepareStatement("update feedback set note_feedback=?,date_feedback=?,commentaire_feedback=? where id=?");
+        pt.setInt(1, a.getNote_feedback());
+        pt.setString(2, a.getDate_feedback());
+        pt.setString(3, a.getCommentaire_feedback());
+        pt.setInt(4, a.getId_feedback());
         int res = pt.executeUpdate();
 
         return (res >= 0);
     }
 
     @Override
-    public void deleteParID(int id) throws SQLException {
+    public void deleteParID(int id_feedback) throws SQLException {
         ste = con.createStatement();
-        String requeteDelete = "Delete from `tgt`.`feedback` WHERE id=" + id;
+        String requeteDelete = "Delete from `tgt`.`feedback` WHERE id_feedback=" + id_feedback;
         ste.executeUpdate(requeteDelete);
         System.out.println("Bien supprimé");
     }
@@ -85,7 +84,7 @@ public class servicefeedback implements Fservice<feedback> {
             ste = con.createStatement();
             ResultSet rs = ste.executeQuery(req);
             while (rs.next()) {
-                list.add(new feedback(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+                list.add(new feedback(rs.getInt(1), rs.getString(3), rs.getString(4)));
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -99,12 +98,11 @@ public class servicefeedback implements Fservice<feedback> {
         ste = con.createStatement();
         ResultSet rs = ste.executeQuery("select * from feedback");
         while (rs.next()) {
-            int id = rs.getInt(1);
-            String nom = rs.getString("nom");
-            String comment = rs.getString(3);
-            String type = rs.getString("comment");
-            String date = rs.getString("date");
-            feedback p = new feedback(id, nom, comment, type, date);
+            int id_feedback = rs.getInt(1);
+            int note_feedback = rs.getInt(2);
+            String date_feedback = rs.getString("date_feedback");
+            String commentaire_feedback = rs.getString("commentaire_feedback");
+            feedback p = new feedback(id_feedback, note_feedback, date_feedback, commentaire_feedback);
             arr.add(p);
         }
         return arr;
@@ -112,3 +110,4 @@ public class servicefeedback implements Fservice<feedback> {
     }
 
 }
+

@@ -4,8 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface Fservice<T> {
-
-    void ajouter(T t) throws SQLException;
+    
+  void ajouter(T t) throws SQLException;
 
     //boolean delete(T t) throws SQLException;
 
@@ -18,4 +18,5 @@ public interface Fservice<T> {
     List<T> readAllTri() throws SQLException;
 
     List<T> readAll() throws SQLException;
-}
+}    
+

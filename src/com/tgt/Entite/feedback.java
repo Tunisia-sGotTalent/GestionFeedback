@@ -1,71 +1,60 @@
 package com.tgt.Entite;
 
 public class feedback {
+    
+    private int id_feedback;
+    private int note_feedback;
+    private String date_feedback;
+    private String commentaire_feedback;
 
-    private int id;
-    private String nom;
-    private String comment;
-    private String type;
-    private String date;
-
-    public feedback(int id, String nom, String comment, String type, String date) {
-        this.id = id;
-        this.nom = nom;
-        this.comment = comment;
-        this.type = type;
-        this.date = date;
+    public feedback(int id_feedback, int note_feedback, String date_feedback, String commentaire_feedback) {
+        this.id_feedback = id_feedback;
+        this.note_feedback = note_feedback;
+        this.date_feedback = date_feedback;
+        this.commentaire_feedback = commentaire_feedback;
     }
 
-    public feedback(String nom, String comment, String type, String date) {
-        this.nom = nom;
-        this.comment = comment;
-        this.type = type;
-        this.date = date;
+    public feedback(int note_feedback, String date_feedback, String commentaire_feedback) {
+        this.note_feedback = note_feedback;
+        this.date_feedback = date_feedback;
+        this.commentaire_feedback = commentaire_feedback;
     }
 
-    public int getId() {
-        return id;
+    public int getId_feedback() {
+        return id_feedback;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId_feedback(int id_feedback) {
+        this.id_feedback = id_feedback;
     }
 
-    public String getNom() {
-        return nom;
+    public int getNote_feedback() {
+        return note_feedback;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setNote_feedback(int note_feedback) {
+        this.note_feedback = note_feedback;
     }
 
-    public String getComment() {
-        return comment;
+    public String getDate_feedback() {
+        return date_feedback;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setDate_feedback(String date_feedback) {
+        this.date_feedback = date_feedback;
     }
 
-    public String getType() {
-        return type;
+    public String getCommentaire_feedback() {
+        return commentaire_feedback;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
+    public void setCommentaire_feedback(String commentaire_feedback) {
+        this.commentaire_feedback = commentaire_feedback;
     }
 
     @Override
     public String toString() {
-        return "feedback{" + "id=" + id + ", nom=" + nom + ", comment=" + comment + ", type=" + type + ", date=" + date + '}';
+        return "feedback{" + "id_feedback=" + id_feedback + ", note_feedback=" + note_feedback + ", date_feedback=" + date_feedback + ", commentaire_feedback=" + commentaire_feedback + '}';
     }
 
 }
