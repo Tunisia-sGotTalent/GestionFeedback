@@ -18,9 +18,9 @@ public static void main(String[] args) {
        // serr.ajouter(f1);
         
       //   serr.ajouter(f2);
-          serr.deleteParID(2);
+        //  serr.deleteParID(2);
 //            serr.update(f3);
-            serr.readAllTri().forEach(System.out::println);
+         //   serr.readAllTri().forEach(System.out::println);
 
             List<feedback> list = serr.readAll();
             System.out.println(list);
