@@ -1,11 +1,17 @@
 package com.tgt.Entite;
 
 public class feedback {
-    
+
     private int id_feedback;
     private int note_feedback;
     private String date_feedback;
     private String commentaire_feedback;
+
+    public feedback() {
+    }
+    
+    
+    
 
     public feedback(int id_feedback, int note_feedback, String date_feedback, String commentaire_feedback) {
         this.id_feedback = id_feedback;
