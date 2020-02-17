@@ -117,11 +117,20 @@ public class servicefeedback implements IserviceFeedback<feedback> {
         ste = con.createStatement();
         ResultSet rs = ste.executeQuery("select * from feedback");
         while (rs.next()) {
-            arr.add(new feedback(rs.getInt("id_feedback"), rs.getInt("note_feedback"), rs.getString("date_deedback"), rs.getString("commentaire_feedback")));
-           arr.add(f);
+            arr.add(new feedback(rs.getInt("id_feedback"), rs.getInt("note_feedback"), rs.getString("date_feedback"), rs.getString("commentaire_feedback")));
+          
         }
         return arr;
 
+    }
+
+    @Override
+    public void deleteParXID(feedback t) throws SQLException {
+         ste = con.createStatement();
+        String requeteDelete = "DELETE FROM feedback WHERE id_feedback = ? ;";
+        PreparedStatement pst = con.prepareStatement(requeteDelete);
+        pst.setInt(1, t.getId_feedback());
+        pst.executeUpdate();
     }
 
 }
