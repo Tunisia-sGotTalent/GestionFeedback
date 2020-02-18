@@ -22,6 +22,19 @@ public class servicefeedback implements IserviceFeedback<feedback> {
         con = DataBase.getInstance().getConnection();
     }
 
+    public ObservableList<feedback> afficher(feedback f) throws SQLException {
+
+        ObservableList<feedback> arr = FXCollections.observableArrayList();
+        ste = con.createStatement();
+        ResultSet rs = ste.executeQuery("select * from feedback");
+        while (rs.next()) {
+            arr.add(new feedback(rs.getInt("id_feedback"), rs.getInt("note_feedback"), rs.getString("date_feedback"), rs.getString("commentaire_feedback")));
+
+        }
+        return arr;
+
+    }
+
     @Override
     public void ajouter(feedback t) throws SQLException {
         ste = con.createStatement();
@@ -64,17 +77,38 @@ public class servicefeedback implements IserviceFeedback<feedback> {
     }
 
     @Override
-    public void rechercherParID(int id) throws SQLException {
+    public void deleteParXID(feedback t) throws SQLException {
         ste = con.createStatement();
-        String query = "Select * from `tgt`.`feedback` WHERE id=" + id;
-        ste.executeQuery(query);
-        ste.executeQuery(query).last();
-        int nbrRow = ste.executeQuery(query).getRow();
-        if (nbrRow != 0) {
-            System.out.println("Trouvé");
-        } else {
-            System.out.println("Non Trouvé");
-        }
+        String requeteDelete = "DELETE FROM feedback WHERE id_feedback = ? ;";
+        PreparedStatement pst = con.prepareStatement(requeteDelete);
+        pst.setInt(1, t.getId_feedback());
+        pst.executeUpdate();
+    }
+
+    @Override
+    public List<feedback> rechercherParID(feedback f) throws SQLException {
+        ste = con.createStatement();
+        List<feedback> arr = new ArrayList<>();
+        String requeteSearch = "Select * from `feedback` WHERE commentaire_feedback='" + f.getCommentaire_feedback() + "' ;";
+        ResultSet rs = ste.executeQuery(requeteSearch);
+        while (rs.next()) {
+            int id = rs.getInt("id_feedback");
+            int note = rs.getInt("note_feedback");
+            String date = rs.getString("date_feedback");
+            String commentaire = rs.getString("commentaire_feedback");
+            feedback f1 = new feedback(id, note, date, commentaire);
+            arr.add(f1);
+//        String query = "Select * from `tgt`.`feedback` WHERE id=" + id;
+//        ste.executeQuery(query);
+//        ste.executeQuery(query).last();
+//        int nbrRow = ste.executeQuery(query).getRow();
+//        if (nbrRow != 0) {
+//            System.out.println("Trouvé");
+//        } else {
+//            System.out.println("Non Trouvé");
+//        }
+    }
+        return arr ;
     }
 
     @Override
@@ -109,28 +143,6 @@ public class servicefeedback implements IserviceFeedback<feedback> {
         }
         return arr;
 
-    }
-
-    public ObservableList<feedback> afficher(feedback f) throws SQLException {
-
-        ObservableList<feedback> arr = FXCollections.observableArrayList();
-        ste = con.createStatement();
-        ResultSet rs = ste.executeQuery("select * from feedback");
-        while (rs.next()) {
-            arr.add(new feedback(rs.getInt("id_feedback"), rs.getInt("note_feedback"), rs.getString("date_feedback"), rs.getString("commentaire_feedback")));
-          
-        }
-        return arr;
-
-    }
-
-    @Override
-    public void deleteParXID(feedback t) throws SQLException {
-         ste = con.createStatement();
-        String requeteDelete = "DELETE FROM feedback WHERE id_feedback = ? ;";
-        PreparedStatement pst = con.prepareStatement(requeteDelete);
-        pst.setInt(1, t.getId_feedback());
-        pst.executeUpdate();
     }
 
 }

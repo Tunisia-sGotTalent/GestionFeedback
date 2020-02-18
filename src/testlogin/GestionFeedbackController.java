@@ -1,19 +1,29 @@
 package testlogin;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.tgt.Entite.feedback;
 import com.tgt.Service.servicefeedback;
+import com.tgt.Utils.DataBase;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import static java.util.Collections.list;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -38,6 +48,12 @@ public class GestionFeedbackController implements Initializable {
     ObservableList<feedback> arr = FXCollections.observableArrayList();
     @FXML
     private TableView<feedback> table;
+    @FXML
+    private BarChart<?, ?> barChart;
+    @FXML
+    private JFXButton btnload;
+    private Connection con;
+    private Statement ste;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -103,6 +119,43 @@ public class GestionFeedbackController implements Initializable {
         arr.clear();
         arr.addAll(ser.readAll());
 
+    }
+
+//    public void modifierNoteFeedback(CellEditEvent editcell) throws SQLException {
+//        servicefeedback ser = new servicefeedback();
+//        feedback feedbackselectionne = table.getSelectionModel().getSelectedItem();
+//        feedbackselectionne.setNote_feedback((int) editcell.getNewValue());
+//        System.out.println(feedbackselectionne);
+//        ser.update(feedbackselectionne);
+//    }
+    @FXML
+    private void searchFeedback(MouseEvent event) throws SQLException {
+        feedback f = new feedback();
+        servicefeedback ser = new servicefeedback();
+        if (!(ser.rechercherParID(f).isEmpty())) {
+            arr.clear();
+            arr.addAll(ser.rechercherParID(f));
+        } else if (ser.rechercherParID(f).isEmpty()) {
+            System.out.println("vide");
+            arr = ser.afficher(f);
+            table.setItems(arr);
+        }
+        System.out.println(ser.rechercherParID(f));
+    }
+
+    @FXML
+    private void loadChart(ActionEvent event) throws SQLException {
+        con = DataBase.getInstance().getConnection();
+        ste = con.createStatement();
+        String query = "Select date_feedback,note_feedback FROM feedback";
+        XYChart.Series series = new XYChart.Series<>();
+        ResultSet rs = ste.executeQuery(query);
+        while (rs.next()) {
+            XYChart.Data<String, Number> data =  new XYChart.Data<String, Number>(rs.getString(2),rs.getDouble(1));
+           series.getData().add(data);
+//            series.getData().add(new XYChart.Data<>(rs.getInt("id_feedback"), rs.getInt("note_feedback")));
+        }
+//        barChart.getData().add(series);
     }
 
 }

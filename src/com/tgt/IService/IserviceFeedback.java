@@ -16,7 +16,7 @@ public interface IserviceFeedback<T> {
 
     void deleteParXID(T t) throws SQLException;
 
-    void rechercherParID(int id) throws SQLException;
+    public List<T> rechercherParID(T t) throws SQLException;
 
     List<T> readAllTri() throws SQLException;
 

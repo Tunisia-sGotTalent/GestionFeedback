@@ -9,9 +9,6 @@ public class feedback {
 
     public feedback() {
     }
-    
-    
-    
 
     public feedback(int id_feedback, int note_feedback, String date_feedback, String commentaire_feedback) {
         this.id_feedback = id_feedback;
