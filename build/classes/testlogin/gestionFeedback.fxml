@@ -17,6 +17,8 @@
 
 <AnchorPane id="AnchorPane" prefHeight="632.0" prefWidth="1065.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testlogin.GestionFeedbackController">
    <children>
+      <JFXButton layoutX="747.0" layoutY="487.0" onMouseClicked="#UpdateFeedback" text="Update" />
+      <JFXButton fx:id="btnload" layoutX="829.0" layoutY="579.0" onAction="#loadChart" text="load" />
       <BarChart fx:id="barChart" layoutX="14.0" layoutY="134.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
@@ -42,10 +44,8 @@
       <JFXTextArea fx:id="t_commentaire_feedback" layoutX="68.0" layoutY="284.0" prefHeight="118.0" prefWidth="184.0" promptText="Commentaire_feedback" text="&#10;&#10;" />
       <JFXDatePicker fx:id="t_date_feedback" layoutX="68.0" layoutY="230.0" promptText="date_feedback" />
       <JFXButton layoutX="118.0" layoutY="471.0" onMouseClicked="#AjouterFeedback" text="Ajouter" />
-      <JFXButton layoutX="747.0" layoutY="487.0" onMouseClicked="#UpdateFeedback" text="Update" />
       <JFXButton layoutX="829.0" layoutY="70.0" onMouseClicked="#DeleteFeedback" text="Delete" />
       <JFXButton layoutX="828.0" layoutY="34.0" onAction="#rechercherFeedbackAction" ripplerFill="WHITE" text="Search" />
-      <JFXButton fx:id="btnload" layoutX="829.0" layoutY="579.0" onAction="#loadChart" text="load" />
       <Label layoutX="56.0" layoutY="142.0" text="Voulez-vous ajouter un feedback? ">
          <font>
             <Font name="Times New Roman" size="16.0" />

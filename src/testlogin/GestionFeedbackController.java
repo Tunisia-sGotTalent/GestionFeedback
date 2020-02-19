@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.tgt.Entite.Centre;
 import com.tgt.Entite.feedback;
+import com.tgt.Service.Notification;
 import com.tgt.Service.ServiceCentre;
 import com.tgt.Service.servicefeedback;
 import com.tgt.Utils.DataBase;
@@ -18,6 +19,8 @@ import static java.util.Collections.list;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,6 +33,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
+import javax.swing.JOptionPane;
 
 public class GestionFeedbackController implements Initializable {
 
@@ -82,6 +86,27 @@ public class GestionFeedbackController implements Initializable {
 ////        col_note_feedback.setCellFactory(TextFieldTableCell.forTableColumn());
 ////        col_date_feedback.setCellFactory(TextFieldTableCell.forTableColumn());
 ////        col_commentaire_feedback.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        FilteredList<feedback> filteredData = new FilteredList<>(arr, b -> true);
+        nom_chercher.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(f -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (f.getCommentaire_feedback().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                }// Filter matches first name.
+                else {
+                    return false;
+                }
+            });
+        });
+        SortedList<feedback> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(table.comparatorProperty());
+        table.setItems(sortedData);
+
     }
 
     @FXML
@@ -115,6 +140,7 @@ public class GestionFeedbackController implements Initializable {
 
         }
         table.setItems((ObservableList<feedback>) arr);
+        Notification.showNotif("ajout de feedback", "votre feedback est ajouté");
     }
 
     @FXML
@@ -138,7 +164,6 @@ public class GestionFeedbackController implements Initializable {
 //        System.out.println(feedbackselectionne);
 //        ser.update(feedbackselectionne);
 //    }
-
     @FXML
     private void loadChart(ActionEvent event) throws SQLException {
         con = DataBase.getInstance().getConnection();
@@ -156,13 +181,14 @@ public class GestionFeedbackController implements Initializable {
 
     @FXML
     private void modifierNoteFeedback(CellEditEvent editcell) throws SQLException {
-        
+
         servicefeedback ser = new servicefeedback();
         feedback feedbackSelection = table.getSelectionModel().getSelectedItem();
         feedbackSelection.setNote_feedback((int) editcell.getNewValue());
         System.out.println(feedbackSelection);
         ser.update(feedbackSelection);
     }
+
     @FXML
     private void modfierCommentaireFeedback(CellEditEvent editcell) throws SQLException {
         servicefeedback ser = new servicefeedback();
@@ -170,24 +196,38 @@ public class GestionFeedbackController implements Initializable {
         feedbackselection.setCommentaire_feedback(editcell.getNewValue().toString());
         ser.update(feedbackselection);
         System.out.println(feedbackselection);
-        
-        
+
     }
 
     @FXML
     private void rechercherFeedbackAction(ActionEvent event) throws SQLException {
-        feedback f = new feedback();
-        f.setCommentaire_feedback(nom_chercher.getText());
-        System.out.println(f);
-        servicefeedback ser = new servicefeedback();
-        if (!(ser.rechercherParID(f).isEmpty())) {
-            arr.clear();
-            arr.addAll(ser.rechercherParID(f));
+//        feedback f = new feedback();
+//        f.setCommentaire_feedback(nom_chercher.getText());
+//        System.out.println(f);
+//        servicefeedback ser = new servicefeedback();
+//        if (!(ser.rechercherParID(f).isEmpty())) {
+//            arr.clear();
+//            arr.addAll(ser.rechercherParID(f));
+//        }
+//    }
+        try {
+            feedback f = new feedback();
+            f.setCommentaire_feedback(nom_chercher.getText());
+            System.out.println(f);
+            servicefeedback ser = new servicefeedback();
+            if (!(ser.rechercherParID(f).isEmpty())) {
+                arr.clear();
+                arr.addAll(ser.rechercherParID(f));
+            } else if (ser.rechercherParID(f).isEmpty()) {
+                System.out.println("vide");
+                JOptionPane.showMessageDialog(null, "Veuillez sélectionner le feedback ç chercher");
+                arr = (ObservableList<feedback>) ser.readAll();
+                table.setItems((ObservableList<feedback>) arr);
+            }
+            System.out.println(ser.rechercherParID(f));
+        } catch (SQLException ex) {
+            System.out.println(ex);
         }
+
     }
-    
-    
-
-    
-
 }

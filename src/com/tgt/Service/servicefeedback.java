@@ -87,9 +87,9 @@ public class servicefeedback implements IserviceFeedback<feedback> {
 
     @Override
     public List<feedback> rechercherParID(feedback f) throws SQLException {
-        ste = con.createStatement();
+        /*  ste = con.createStatement();
         List<feedback> arr = new ArrayList<>();
-        String requeteSearch = "Select * from `feedback` WHERE id_feedback='" + f.getCommentaire_feedback() + "' ;";
+        String requeteSearch = "Select * from `feedback` WHERE commentaire_feedback='" + f.getCommentaire_feedback() + "' ;";
         ResultSet rs = ste.executeQuery(requeteSearch);
         while (rs.next()) {
             int id = rs.getInt("id_feedback");
@@ -99,7 +99,20 @@ public class servicefeedback implements IserviceFeedback<feedback> {
             feedback f1 = new feedback(id, note, date, commentaire);
             arr.add(f1);
     }
-        return arr ;
+        return arr ;*/
+
+        List<feedback> list = new ArrayList<>();
+        String req = "select * from feedback where commentaire_feedback = '" + f.getCommentaire_feedback() + "';";
+        try {
+            ste = con.createStatement();
+            ResultSet rs = ste.executeQuery(req);
+            while (rs.next()) {
+                list.add(new feedback(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4)));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return list;
     }
 
     @Override
