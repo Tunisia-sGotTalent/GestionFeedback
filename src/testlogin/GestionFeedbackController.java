@@ -4,7 +4,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import com.tgt.Entite.Centre;
 import com.tgt.Entite.feedback;
+import com.tgt.Service.ServiceCentre;
 import com.tgt.Service.servicefeedback;
 import com.tgt.Utils.DataBase;
 import java.net.URL;
@@ -26,6 +28,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 
 public class GestionFeedbackController implements Initializable {
@@ -54,6 +57,8 @@ public class GestionFeedbackController implements Initializable {
     private JFXButton btnload;
     private Connection con;
     private Statement ste;
+    @FXML
+    private JFXTextField nom_chercher;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -73,6 +78,10 @@ public class GestionFeedbackController implements Initializable {
         }
         table.setItems((ObservableList<feedback>) arr);
         System.out.println("iciiiiiiiiiiiiiiiiiiii");
+////        table.setEditable(true);
+////        col_note_feedback.setCellFactory(TextFieldTableCell.forTableColumn());
+////        col_date_feedback.setCellFactory(TextFieldTableCell.forTableColumn());
+////        col_commentaire_feedback.setCellFactory(TextFieldTableCell.forTableColumn());
     }
 
     @FXML
@@ -82,7 +91,8 @@ public class GestionFeedbackController implements Initializable {
 
         f.setNote_feedback(Integer.parseInt(t_nnote_feedback.getText()));
         f.setCommentaire_feedback(t_commentaire_feedback.getText());
-        String value = t_date_feedback.getValue().toString();
+//        String value = t_date_feedback.getValue().toString();
+        f.setDate_feedback(t_date_feedback.getEditor().getText());
         servicefeedback ser = new servicefeedback();
         try {
             ser.ajouter(f);
@@ -128,20 +138,6 @@ public class GestionFeedbackController implements Initializable {
 //        System.out.println(feedbackselectionne);
 //        ser.update(feedbackselectionne);
 //    }
-    @FXML
-    private void searchFeedback(MouseEvent event) throws SQLException {
-        feedback f = new feedback();
-        servicefeedback ser = new servicefeedback();
-        if (!(ser.rechercherParID(f).isEmpty())) {
-            arr.clear();
-            arr.addAll(ser.rechercherParID(f));
-        } else if (ser.rechercherParID(f).isEmpty()) {
-            System.out.println("vide");
-            arr = ser.afficher(f);
-            table.setItems(arr);
-        }
-        System.out.println(ser.rechercherParID(f));
-    }
 
     @FXML
     private void loadChart(ActionEvent event) throws SQLException {
@@ -151,11 +147,47 @@ public class GestionFeedbackController implements Initializable {
         XYChart.Series series = new XYChart.Series<>();
         ResultSet rs = ste.executeQuery(query);
         while (rs.next()) {
-            XYChart.Data<String, Number> data =  new XYChart.Data<String, Number>(rs.getString(2),rs.getDouble(1));
-           series.getData().add(data);
+            XYChart.Data<String, Number> data = new XYChart.Data<String, Number>(rs.getString(2), rs.getDouble(1));
+            series.getData().add(data);
 //            series.getData().add(new XYChart.Data<>(rs.getInt("id_feedback"), rs.getInt("note_feedback")));
         }
 //        barChart.getData().add(series);
     }
+
+    @FXML
+    private void modifierNoteFeedback(CellEditEvent editcell) throws SQLException {
+        
+        servicefeedback ser = new servicefeedback();
+        feedback feedbackSelection = table.getSelectionModel().getSelectedItem();
+        feedbackSelection.setNote_feedback((int) editcell.getNewValue());
+        System.out.println(feedbackSelection);
+        ser.update(feedbackSelection);
+    }
+    @FXML
+    private void modfierCommentaireFeedback(CellEditEvent editcell) throws SQLException {
+        servicefeedback ser = new servicefeedback();
+        feedback feedbackselection = table.getSelectionModel().getSelectedItem();
+        feedbackselection.setCommentaire_feedback(editcell.getNewValue().toString());
+        ser.update(feedbackselection);
+        System.out.println(feedbackselection);
+        
+        
+    }
+
+    @FXML
+    private void rechercherFeedbackAction(ActionEvent event) throws SQLException {
+        feedback f = new feedback();
+        f.setCommentaire_feedback(nom_chercher.getText());
+        System.out.println(f);
+        servicefeedback ser = new servicefeedback();
+        if (!(ser.rechercherParID(f).isEmpty())) {
+            arr.clear();
+            arr.addAll(ser.rechercherParID(f));
+        }
+    }
+    
+    
+
+    
 
 }

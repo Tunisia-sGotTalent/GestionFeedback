@@ -7,28 +7,17 @@
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="844.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testlogin.GestionFeedbackController">
+<AnchorPane id="AnchorPane" prefHeight="632.0" prefWidth="1065.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testlogin.GestionFeedbackController">
    <children>
-      <TableView fx:id="table" layoutX="306.0" layoutY="31.0" prefHeight="345.0" prefWidth="544.0">
-        <columns>
-          <TableColumn fx:id="col_id_feedback" prefWidth="103.0" text="id_feedback" />
-          <TableColumn fx:id="col_note_feedback" prefWidth="146.0" text="note_feedbaclk" />
-            <TableColumn fx:id="col_date_feedback" prefWidth="112.0" text="date_feedback" />
-            <TableColumn fx:id="col_commentaire_feedback" prefWidth="182.0" text="commentaire_feedback" />
-        </columns>
-      </TableView>
-      <JFXTextField fx:id="t_nnote_feedback" layoutX="36.0" layoutY="60.0" promptText="Note_Feedback" />
-      <JFXTextArea fx:id="t_commentaire_feedback" layoutX="36.0" layoutY="218.0" prefHeight="118.0" prefWidth="184.0" promptText="Commentaire_feedback" text="&#10;" />
-      <JFXDatePicker fx:id="t_date_feedback" layoutX="36.0" layoutY="154.0" promptText="date_feedback" />
-      <JFXButton layoutX="363.0" layoutY="396.0" onMouseClicked="#AjouterFeedback" text="Ajouter" />
-      <JFXButton layoutX="549.0" layoutY="396.0" onMouseClicked="#UpdateFeedback" text="Update" />
-      <JFXButton layoutX="628.0" layoutY="396.0" onMouseClicked="#DeleteFeedback" text="Delete" />
-      <JFXButton layoutX="450.0" layoutY="396.0" onMouseClicked="#searchFeedback" ripplerFill="WHITE" text="Search" />
-      <BarChart fx:id="barChart" layoutX="160.0" layoutY="427.0">
+      <BarChart fx:id="barChart" layoutX="14.0" layoutY="134.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
         </xAxis>
@@ -36,6 +25,37 @@
           <NumberAxis side="LEFT" />
         </yAxis>
       </BarChart>
+      <ImageView fitHeight="714.0" fitWidth="1070.0" layoutX="-6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image/Interface%20module.png" />
+         </image>
+      </ImageView>
+      <TableView fx:id="table" layoutX="391.0" layoutY="119.0" prefHeight="320.0" prefWidth="627.0">
+        <columns>
+          <TableColumn fx:id="col_id_feedback" prefWidth="103.0" text="id_feedback" />
+          <TableColumn fx:id="col_note_feedback" onEditCommit="#modifierNoteFeedback" prefWidth="146.0" text="note_feedbaclk" />
+            <TableColumn fx:id="col_date_feedback" prefWidth="112.0" text="date_feedback" />
+            <TableColumn fx:id="col_commentaire_feedback" onEditCommit="#modfierCommentaireFeedback" prefWidth="265.0" text="commentaire_feedback" />
+        </columns>
+      </TableView>
+      <JFXTextField fx:id="t_nnote_feedback" layoutX="68.0" layoutY="176.0" prefHeight="31.0" prefWidth="169.0" promptText="Note_Feedback" />
+      <JFXTextArea fx:id="t_commentaire_feedback" layoutX="68.0" layoutY="284.0" prefHeight="118.0" prefWidth="184.0" promptText="Commentaire_feedback" text="&#10;&#10;" />
+      <JFXDatePicker fx:id="t_date_feedback" layoutX="68.0" layoutY="230.0" promptText="date_feedback" />
+      <JFXButton layoutX="118.0" layoutY="471.0" onMouseClicked="#AjouterFeedback" text="Ajouter" />
+      <JFXButton layoutX="747.0" layoutY="487.0" onMouseClicked="#UpdateFeedback" text="Update" />
+      <JFXButton layoutX="829.0" layoutY="70.0" onMouseClicked="#DeleteFeedback" text="Delete" />
+      <JFXButton layoutX="828.0" layoutY="34.0" onAction="#rechercherFeedbackAction" ripplerFill="WHITE" text="Search" />
       <JFXButton fx:id="btnload" layoutX="829.0" layoutY="579.0" onAction="#loadChart" text="load" />
+      <Label layoutX="56.0" layoutY="142.0" text="Voulez-vous ajouter un feedback? ">
+         <font>
+            <Font name="Times New Roman" size="16.0" />
+         </font>
+      </Label>
+      <JFXTextField fx:id="nom_chercher" layoutX="460.0" layoutY="34.0" prefHeight="25.0" prefWidth="322.0" promptText="Tapez le nom du centre à chercher " />
+      <Label layoutX="460.0" layoutY="76.0" text="Sélectionnez  le centre que vous voulez supprimer">
+         <font>
+            <Font name="Times New Roman" size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
